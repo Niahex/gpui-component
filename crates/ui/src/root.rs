@@ -9,7 +9,7 @@ use crate::{
     window_border,
 };
 use gpui::{
-    AnchorCorner, AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle,
+    Corner, AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle,
     InteractiveElement, IntoElement, KeyBinding, ParentElement as _, Pixels, Render,
     StyleRefinement, Styled, WeakFocusHandle, Window, actions, div, prelude::FluentBuilder as _,
 };
@@ -142,22 +142,22 @@ impl Root {
         Some(
             div()
                 .absolute()
-                .when(matches!(placement, AnchorCorner::TopRight), |this| {
+                .when(matches!(placement, Corner::TopRight), |this| {
                     this.top_0().right_0()
                 })
-                .when(matches!(placement, AnchorCorner::TopLeft), |this| {
+                .when(matches!(placement, Corner::TopLeft), |this| {
                     this.top_0().left_0()
                 })
-                .when(matches!(placement, AnchorCorner::TopCenter), |this| {
+                .when(matches!(placement, Corner::TopCenter), |this| {
                     this.top_0().mx_auto()
                 })
-                .when(matches!(placement, AnchorCorner::BottomRight), |this| {
+                .when(matches!(placement, Corner::BottomRight), |this| {
                     this.bottom_0().right_0()
                 })
-                .when(matches!(placement, AnchorCorner::BottomLeft), |this| {
+                .when(matches!(placement, Corner::BottomLeft), |this| {
                     this.bottom_0().left_0()
                 })
-                .when(matches!(placement, AnchorCorner::BottomCenter), |this| {
+                .when(matches!(placement, Corner::BottomCenter), |this| {
                     this.bottom_0().mx_auto()
                 })
                 .when_some(mt, |this, offset| this.mt(offset))

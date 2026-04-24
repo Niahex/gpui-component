@@ -1,5 +1,5 @@
 use gpui::{
-    AnchorCorner, AnyElement, App, Bounds, Context, ElementId, InteractiveElement as _, IntoElement,
+    Corner, AnyElement, App, Bounds, Context, ElementId, InteractiveElement as _, IntoElement,
     ParentElement, Pixels, Render, RenderOnce, StatefulInteractiveElement, StyleRefinement, Styled,
     Task, Window, div, prelude::FluentBuilder as _,
 };
@@ -16,7 +16,7 @@ use crate::{ElementExt, StyledExt as _, popover::Popover};
 pub struct HoverCard {
     id: ElementId,
     style: StyleRefinement,
-    anchor: AnchorCorner,
+    anchor: Corner,
     trigger: Option<Box<dyn FnOnce(&mut Window, &App) -> AnyElement + 'static>>,
     content: Option<
         Rc<
@@ -37,7 +37,7 @@ impl HoverCard {
         Self {
             id: id.into(),
             style: StyleRefinement::default(),
-            anchor: AnchorCorner::TopCenter,
+            anchor: Corner::TopCenter,
             trigger: None,
             content: None,
             children: vec![],
@@ -48,7 +48,7 @@ impl HoverCard {
         }
     }
 
-    /// Set the anchor corner of the hover card, default is [`AnchorCorner::TopCenter`].
+    /// Set the anchor corner of the hover card, default is [`Corner::TopCenter`].
     pub fn anchor(mut self, anchor: impl Into<Anchor>) -> Self {
         self.anchor = anchor.into();
         self

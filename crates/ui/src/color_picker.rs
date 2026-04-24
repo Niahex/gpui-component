@@ -1,5 +1,5 @@
 use gpui::{
-    AnchorCorner, App, AppContext, Context, Div, ElementId, Entity, EventEmitter, FocusHandle, Focusable,
+    Corner, App, AppContext, Context, Div, ElementId, Entity, EventEmitter, FocusHandle, Focusable,
     Hsla, InteractiveElement as _, IntoElement, KeyBinding, ParentElement, Render, RenderOnce,
     SharedString, Stateful, StatefulInteractiveElement as _, StyleRefinement, Styled, Subscription,
     TextAlign, Window, div, hsla, linear_color_stop, linear_gradient, prelude::FluentBuilder as _,
@@ -336,7 +336,7 @@ pub struct ColorPicker {
     label: Option<SharedString>,
     icon: Option<Icon>,
     size: Size,
-    anchor: AnchorCorner,
+    anchor: Corner,
 }
 
 impl ColorPicker {
@@ -350,7 +350,7 @@ impl ColorPicker {
             size: Size::Medium,
             label: None,
             icon: None,
-            anchor: AnchorCorner::TopLeft,
+            anchor: Corner::TopLeft,
         }
     }
 
@@ -382,8 +382,8 @@ impl ColorPicker {
 
     /// Set the anchor corner of the color picker.
     ///
-    /// Default is `AnchorCorner::TopLeft`.
-    pub fn anchor(mut self, anchor: AnchorCorner) -> Self {
+    /// Default is `Corner::TopLeft`.
+    pub fn anchor(mut self, anchor: Corner) -> Self {
         self.anchor = anchor;
         self
     }

@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
 use gpui::{
-    AnchorCorner, Context, DismissEvent, ElementId, Entity, Focusable, InteractiveElement, IntoElement,
+    Corner, Context, DismissEvent, ElementId, Entity, Focusable, InteractiveElement, IntoElement,
     RenderOnce, SharedString, StyleRefinement, Styled, Window,
 };
 
@@ -14,7 +14,7 @@ pub trait DropdownMenu: Styled + Selectable + InteractiveElement + IntoElement +
         self,
         f: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> DropdownMenuPopover<Self> {
-        self.dropdown_menu_with_anchor(AnchorCorner::TopLeft, f)
+        self.dropdown_menu_with_anchor(Corner::TopLeft, f)
     }
 
     /// Create a dropdown menu with the given items, anchored to the given corner
@@ -36,7 +36,7 @@ impl DropdownMenu for Button {}
 pub struct DropdownMenuPopover<T: Selectable + IntoElement + 'static> {
     id: ElementId,
     style: StyleRefinement,
-    anchor: AnchorCorner,
+    anchor: Corner,
     trigger: T,
     builder: Rc<dyn Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu>,
 }

@@ -1,6 +1,6 @@
 use gpui::Corners;
 use gpui::{
-    AnchorCorner, App, Context, Edges, ElementId, InteractiveElement as _, IntoElement,
+    Corner, App, Context, Edges, ElementId, InteractiveElement as _, IntoElement,
     ParentElement, RenderOnce, SharedString, StyleRefinement, Styled, Window, div,
     prelude::FluentBuilder,
 };
@@ -29,7 +29,7 @@ pub struct DropdownButton {
     variant: ButtonVariant,
     size: Size,
     rounded: ButtonRounded,
-    anchor: AnchorCorner,
+    anchor: Corner,
     tooltip: ComponentTooltip,
 }
 
@@ -49,7 +49,7 @@ impl DropdownButton {
             variant: ButtonVariant::default(),
             size: Size::default(),
             rounded: ButtonRounded::default(),
-            anchor: AnchorCorner::TopRight,
+            anchor: Corner::TopRight,
             tooltip: ComponentTooltip::default(),
         }
     }
@@ -233,7 +233,7 @@ mod tests {
             .disabled(false)
             .selected(false)
             .rounded(ButtonRounded::Medium)
-            .dropdown_menu_with_anchor(AnchorCorner::BottomLeft, |menu, _, _| menu);
+            .dropdown_menu_with_anchor(Corner::BottomLeft, |menu, _, _| menu);
 
         assert!(dropdown.button.is_some());
         assert_eq!(dropdown.variant, ButtonVariant::Primary);
@@ -245,6 +245,6 @@ mod tests {
         assert!(!dropdown.selected);
         assert!(matches!(dropdown.rounded, ButtonRounded::Medium));
         assert!(dropdown.menu.is_some());
-        assert_eq!(dropdown.anchor, AnchorCorner::BottomLeft);
+        assert_eq!(dropdown.anchor, Corner::BottomLeft);
     }
 }

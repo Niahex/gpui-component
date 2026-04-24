@@ -6,7 +6,7 @@ use std::{
 };
 
 use gpui::{
-    AnchorCorner, Animation, AnimationExt, AnyElement, App, AppContext, ClickEvent, Context,
+    Corner, Animation, AnimationExt, AnyElement, App, AppContext, ClickEvent, Context,
     DismissEvent, ElementId, Entity, EventEmitter, InteractiveElement as _, IntoElement,
     ParentElement as _, Pixels, Render, SharedString, StatefulInteractiveElement, StyleRefinement,
     Styled, Subscription, Window, div, prelude::FluentBuilder, px,
@@ -363,19 +363,19 @@ impl Render for Notification {
                             .opacity(opacity)
                             .when(opacity < 0.85, |this| this.shadow_none());
                         match placement {
-                            AnchorCorner::TopRight | AnchorCorner::BottomRight => {
+                            Corner::TopRight | Corner::BottomRight => {
                                 let x_offset = px(0.) + delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            AnchorCorner::TopLeft | AnchorCorner::BottomLeft => {
+                            Corner::TopLeft | Corner::BottomLeft => {
                                 let x_offset = px(0.) - delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            AnchorCorner::TopCenter => {
+                            Corner::TopCenter => {
                                 let y_offset = px(0.) - delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
-                            AnchorCorner::BottomCenter => {
+                            Corner::BottomCenter => {
                                 let y_offset = px(0.) + delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
@@ -383,10 +383,10 @@ impl Render for Notification {
                         }
                     } else {
                         let y_offset = match placement {
-                            AnchorCorner::TopLeft | AnchorCorner::TopRight | AnchorCorner::TopCenter => {
+                            Corner::TopLeft | Corner::TopRight | Corner::TopCenter => {
                                 px(-45.) + delta * px(45.)
                             }
-                            AnchorCorner::BottomLeft | AnchorCorner::BottomRight | AnchorCorner::BottomCenter => {
+                            Corner::BottomLeft | Corner::BottomRight | Corner::BottomCenter => {
                                 px(45.) - delta * px(45.)
                             }
                             _ => px(0.),
@@ -404,8 +404,8 @@ impl Render for Notification {
 /// The settings for notifications.
 #[derive(Debug, Clone)]
 pub struct NotificationSettings {
-    /// The placement of the notification, default: [`AnchorCorner::TopRight`]
-    pub placement: AnchorCorner,
+    /// The placement of the notification, default: [`Corner::TopRight`]
+    pub placement: Corner,
     /// The margins of the notification with respect to the window edges.
     pub margins: Edges<Pixels>,
     /// The maximum number of notifications to show at once, default: 10
@@ -416,7 +416,7 @@ impl Default for NotificationSettings {
     fn default() -> Self {
         let offset = px(16.);
         Self {
-            placement: AnchorCorner::TopRight,
+            placement: Corner::TopRight,
             margins: Edges {
                 top: TITLE_BAR_HEIGHT + offset, // avoid overlap with title bar
                 right: offset,
@@ -527,22 +527,22 @@ impl Render for NotificationList {
             .pb(margins.bottom)
             .gap_3()
             .when(
-                matches!(placement, AnchorCorner::TopRight),
+                matches!(placement, Corner::TopRight),
                 |this| this.pr(margins.right), // ignore left
             )
             .when(
-                matches!(placement, AnchorCorner::TopLeft),
+                matches!(placement, Corner::TopLeft),
                 |this| this.pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, AnchorCorner::BottomLeft),
+                matches!(placement, Corner::BottomLeft),
                 |this| this.flex_col_reverse().pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, AnchorCorner::BottomRight),
+                matches!(placement, Corner::BottomRight),
                 |this| this.flex_col_reverse().pr(margins.right), // ignore left
             )
-            .when(matches!(placement, AnchorCorner::BottomCenter), |this| {
+            .when(matches!(placement, Corner::BottomCenter), |this| {
                 this.flex_col_reverse()
             })
             .on_hover(cx.listener(|view, hovered, _, cx| {

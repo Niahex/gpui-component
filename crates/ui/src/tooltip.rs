@@ -1,7 +1,7 @@
 use std::{cell::Cell, rc::Rc, time::Duration};
 
 use gpui::{
-    Action, AnchorCorner, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half,
+    Action, Corner, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half,
     IntoElement, ParentElement, Pixels, Render, SharedString, StatefulInteractiveElement,
     StyleRefinement, Styled, Task, Window, anchored, deferred, div, point,
     prelude::FluentBuilder, px,
@@ -285,7 +285,7 @@ impl Render for TooltipOverlay {
             anchored()
                 .snap_to_window_with_margin(px(4.))
                 .position(anchor_position)
-                .anchor(AnchorCorner::BottomCenter)
+                .anchor(Corner::BottomCenter)
                 .child(div().child(content_view).map(|el| {
                     if is_switching {
                         let Some(prev_bounds) = prev_trigger_bounds else {
