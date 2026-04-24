@@ -142,22 +142,22 @@ impl Root {
         Some(
             div()
                 .absolute()
-                .when(matches!(placement, Anchor::TopRight), |this| {
+                .when(matches!(placement, AnchorCorner::TopRight), |this| {
                     this.top_0().right_0()
                 })
-                .when(matches!(placement, Anchor::TopLeft), |this| {
+                .when(matches!(placement, AnchorCorner::TopLeft), |this| {
                     this.top_0().left_0()
                 })
-                .when(matches!(placement, Anchor::TopCenter), |this| {
+                .when(matches!(placement, AnchorCorner::TopCenter), |this| {
                     this.top_0().mx_auto()
                 })
-                .when(matches!(placement, Anchor::BottomRight), |this| {
+                .when(matches!(placement, AnchorCorner::BottomRight), |this| {
                     this.bottom_0().right_0()
                 })
-                .when(matches!(placement, Anchor::BottomLeft), |this| {
+                .when(matches!(placement, AnchorCorner::BottomLeft), |this| {
                     this.bottom_0().left_0()
                 })
-                .when(matches!(placement, Anchor::BottomCenter), |this| {
+                .when(matches!(placement, AnchorCorner::BottomCenter), |this| {
                     this.bottom_0().mx_auto()
                 })
                 .when_some(mt, |this, offset| this.mt(offset))

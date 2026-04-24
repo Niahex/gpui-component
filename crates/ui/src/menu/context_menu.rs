@@ -43,7 +43,7 @@ pub struct ContextMenu<E: ParentElement + Styled + Sized> {
     menu: Option<Rc<dyn Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu>>,
     // This is not in use, just for style refinement forwarding.
     _ignore_style: StyleRefinement,
-    anchor: Anchor,
+    anchor: AnchorCorner,
 }
 
 impl<E: ParentElement + Styled> ContextMenu<E> {
@@ -53,7 +53,7 @@ impl<E: ParentElement + Styled> ContextMenu<E> {
             id: id.into(),
             element: Some(element),
             menu: None,
-            anchor: Anchor::TopLeft,
+            anchor: AnchorCorner::TopLeft,
             _ignore_style: StyleRefinement::default(),
         }
     }

@@ -667,13 +667,13 @@ impl Element for Scrollbar {
             let thumb_length = thumb_end - thumb_start - inset * 2;
             let thumb_bounds = if is_vertical {
                 Bounds::from_corner_and_size(
-                    Anchor::TopRight,
+                    AnchorCorner::TopRight,
                     bounds.top_right() + point(-inset, inset + thumb_start),
                     size(WIDTH, thumb_length),
                 )
             } else {
                 Bounds::from_corner_and_size(
-                    Anchor::BottomLeft,
+                    AnchorCorner::BottomLeft,
                     bounds.bottom_left() + point(inset + thumb_start, -inset),
                     size(thumb_length, WIDTH),
                 )
@@ -682,13 +682,13 @@ impl Element for Scrollbar {
             // The actual render area of the thumb
             let thumb_fill_bounds = if is_vertical {
                 Bounds::from_corner_and_size(
-                    Anchor::TopRight,
+                    AnchorCorner::TopRight,
                     bounds.top_right() + point(-inset, inset + thumb_start),
                     size(thumb_width, thumb_length),
                 )
             } else {
                 Bounds::from_corner_and_size(
-                    Anchor::BottomLeft,
+                    AnchorCorner::BottomLeft,
                     bounds.bottom_left() + point(inset + thumb_start, -inset),
                     size(thumb_length, thumb_width),
                 )

@@ -1,4 +1,4 @@
-use gpui::{ Anchor,
+use gpui::{ AnchorCorner,
     App, AppContext, Context, Entity, FocusHandle, Focusable, InteractiveElement as _, IntoElement,
     ParentElement, Render, Styled, Window,
 };
@@ -61,12 +61,12 @@ impl Focusable for NotificationStory {
 impl Render for NotificationStory {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         const ANCHORS: [Anchor; 6] = [
-            Anchor::TopLeft,
-            Anchor::TopCenter,
-            Anchor::TopRight,
-            Anchor::BottomLeft,
-            Anchor::BottomCenter,
-            Anchor::BottomRight,
+            AnchorCorner::TopLeft,
+            AnchorCorner::TopCenter,
+            AnchorCorner::TopRight,
+            AnchorCorner::BottomLeft,
+            AnchorCorner::BottomCenter,
+            AnchorCorner::BottomRight,
         ];
 
         let view = cx.entity();

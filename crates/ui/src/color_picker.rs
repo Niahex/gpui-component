@@ -336,7 +336,7 @@ pub struct ColorPicker {
     label: Option<SharedString>,
     icon: Option<Icon>,
     size: Size,
-    anchor: Anchor,
+    anchor: AnchorCorner,
 }
 
 impl ColorPicker {
@@ -350,7 +350,7 @@ impl ColorPicker {
             size: Size::Medium,
             label: None,
             icon: None,
-            anchor: Anchor::TopLeft,
+            anchor: AnchorCorner::TopLeft,
         }
     }
 
@@ -382,8 +382,8 @@ impl ColorPicker {
 
     /// Set the anchor corner of the color picker.
     ///
-    /// Default is `Anchor::TopLeft`.
-    pub fn anchor(mut self, anchor: Anchor) -> Self {
+    /// Default is `AnchorCorner::TopLeft`.
+    pub fn anchor(mut self, anchor: AnchorCorner) -> Self {
         self.anchor = anchor;
         self
     }

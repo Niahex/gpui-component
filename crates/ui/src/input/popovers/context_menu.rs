@@ -146,7 +146,7 @@ impl Render for InputContextMenu {
         deferred(
             anchored()
                 .snap_to_window_with_margin(px(8.))
-                .anchor(Anchor::TopLeft)
+                .anchor(AnchorCorner::TopLeft)
                 .position(self.mouse_position)
                 .child(
                     div()

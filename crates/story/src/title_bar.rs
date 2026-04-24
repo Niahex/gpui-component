@@ -219,7 +219,7 @@ impl Render for FontSizeSelector {
                                 Box::new(ToggleListActiveHighlight),
                             )
                     })
-                    .anchor(Anchor::TopRight),
+                    .anchor(AnchorCorner::TopRight),
             )
     }
 }

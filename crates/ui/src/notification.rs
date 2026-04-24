@@ -363,19 +363,19 @@ impl Render for Notification {
                             .opacity(opacity)
                             .when(opacity < 0.85, |this| this.shadow_none());
                         match placement {
-                            Anchor::TopRight | Anchor::BottomRight => {
+                            AnchorCorner::TopRight | AnchorCorner::BottomRight => {
                                 let x_offset = px(0.) + delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            Anchor::TopLeft | Anchor::BottomLeft => {
+                            AnchorCorner::TopLeft | AnchorCorner::BottomLeft => {
                                 let x_offset = px(0.) - delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            Anchor::TopCenter => {
+                            AnchorCorner::TopCenter => {
                                 let y_offset = px(0.) - delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
-                            Anchor::BottomCenter => {
+                            AnchorCorner::BottomCenter => {
                                 let y_offset = px(0.) + delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
@@ -383,10 +383,10 @@ impl Render for Notification {
                         }
                     } else {
                         let y_offset = match placement {
-                            Anchor::TopLeft | Anchor::TopRight | Anchor::TopCenter => {
+                            AnchorCorner::TopLeft | AnchorCorner::TopRight | AnchorCorner::TopCenter => {
                                 px(-45.) + delta * px(45.)
                             }
-                            Anchor::BottomLeft | Anchor::BottomRight | Anchor::BottomCenter => {
+                            AnchorCorner::BottomLeft | AnchorCorner::BottomRight | AnchorCorner::BottomCenter => {
                                 px(45.) - delta * px(45.)
                             }
                             _ => px(0.),
@@ -404,8 +404,8 @@ impl Render for Notification {
 /// The settings for notifications.
 #[derive(Debug, Clone)]
 pub struct NotificationSettings {
-    /// The placement of the notification, default: [`Anchor::TopRight`]
-    pub placement: Anchor,
+    /// The placement of the notification, default: [`AnchorCorner::TopRight`]
+    pub placement: AnchorCorner,
     /// The margins of the notification with respect to the window edges.
     pub margins: Edges<Pixels>,
     /// The maximum number of notifications to show at once, default: 10
@@ -416,7 +416,7 @@ impl Default for NotificationSettings {
     fn default() -> Self {
         let offset = px(16.);
         Self {
-            placement: Anchor::TopRight,
+            placement: AnchorCorner::TopRight,
             margins: Edges {
                 top: TITLE_BAR_HEIGHT + offset, // avoid overlap with title bar
                 right: offset,
@@ -527,22 +527,22 @@ impl Render for NotificationList {
             .pb(margins.bottom)
             .gap_3()
             .when(
-                matches!(placement, Anchor::TopRight),
+                matches!(placement, AnchorCorner::TopRight),
                 |this| this.pr(margins.right), // ignore left
             )
             .when(
-                matches!(placement, Anchor::TopLeft),
+                matches!(placement, AnchorCorner::TopLeft),
                 |this| this.pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, Anchor::BottomLeft),
+                matches!(placement, AnchorCorner::BottomLeft),
                 |this| this.flex_col_reverse().pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, Anchor::BottomRight),
+                matches!(placement, AnchorCorner::BottomRight),
                 |this| this.flex_col_reverse().pr(margins.right), // ignore left
             )
-            .when(matches!(placement, Anchor::BottomCenter), |this| {
+            .when(matches!(placement, AnchorCorner::BottomCenter), |this| {
                 this.flex_col_reverse()
             })
             .on_hover(cx.listener(|view, hovered, _, cx| {

@@ -29,7 +29,7 @@ pub struct DropdownButton {
     variant: ButtonVariant,
     size: Size,
     rounded: ButtonRounded,
-    anchor: Anchor,
+    anchor: AnchorCorner,
     tooltip: ComponentTooltip,
 }
 
@@ -49,7 +49,7 @@ impl DropdownButton {
             variant: ButtonVariant::default(),
             size: Size::default(),
             rounded: ButtonRounded::default(),
-            anchor: Anchor::TopRight,
+            anchor: AnchorCorner::TopRight,
             tooltip: ComponentTooltip::default(),
         }
     }
@@ -233,7 +233,7 @@ mod tests {
             .disabled(false)
             .selected(false)
             .rounded(ButtonRounded::Medium)
-            .dropdown_menu_with_anchor(Anchor::BottomLeft, |menu, _, _| menu);
+            .dropdown_menu_with_anchor(AnchorCorner::BottomLeft, |menu, _, _| menu);
 
         assert!(dropdown.button.is_some());
         assert_eq!(dropdown.variant, ButtonVariant::Primary);
@@ -245,6 +245,6 @@ mod tests {
         assert!(!dropdown.selected);
         assert!(matches!(dropdown.rounded, ButtonRounded::Medium));
         assert!(dropdown.menu.is_some());
-        assert_eq!(dropdown.anchor, Anchor::BottomLeft);
+        assert_eq!(dropdown.anchor, AnchorCorner::BottomLeft);
     }
 }

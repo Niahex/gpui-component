@@ -285,7 +285,7 @@ impl Render for TooltipOverlay {
             anchored()
                 .snap_to_window_with_margin(px(4.))
                 .position(anchor_position)
-                .anchor(Anchor::BottomCenter)
+                .anchor(AnchorCorner::BottomCenter)
                 .child(div().child(content_view).map(|el| {
                     if is_switching {
                         let Some(prev_bounds) = prev_trigger_bounds else {

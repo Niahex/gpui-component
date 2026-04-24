@@ -14,7 +14,7 @@ pub trait DropdownMenu: Styled + Selectable + InteractiveElement + IntoElement +
         self,
         f: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> DropdownMenuPopover<Self> {
-        self.dropdown_menu_with_anchor(Anchor::TopLeft, f)
+        self.dropdown_menu_with_anchor(AnchorCorner::TopLeft, f)
     }
 
     /// Create a dropdown menu with the given items, anchored to the given corner
@@ -36,7 +36,7 @@ impl DropdownMenu for Button {}
 pub struct DropdownMenuPopover<T: Selectable + IntoElement + 'static> {
     id: ElementId,
     style: StyleRefinement,
-    anchor: Anchor,
+    anchor: AnchorCorner,
     trigger: T,
     builder: Rc<dyn Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu>,
 }

@@ -16,7 +16,7 @@ use crate::{ElementExt, StyledExt as _, popover::Popover};
 pub struct HoverCard {
     id: ElementId,
     style: StyleRefinement,
-    anchor: Anchor,
+    anchor: AnchorCorner,
     trigger: Option<Box<dyn FnOnce(&mut Window, &App) -> AnyElement + 'static>>,
     content: Option<
         Rc<
@@ -37,7 +37,7 @@ impl HoverCard {
         Self {
             id: id.into(),
             style: StyleRefinement::default(),
-            anchor: Anchor::TopCenter,
+            anchor: AnchorCorner::TopCenter,
             trigger: None,
             content: None,
             children: vec![],
@@ -48,7 +48,7 @@ impl HoverCard {
         }
     }
 
-    /// Set the anchor corner of the hover card, default is [`Anchor::TopCenter`].
+    /// Set the anchor corner of the hover card, default is [`AnchorCorner::TopCenter`].
     pub fn anchor(mut self, anchor: impl Into<Anchor>) -> Self {
         self.anchor = anchor.into();
         self

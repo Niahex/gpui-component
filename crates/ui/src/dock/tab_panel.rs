@@ -514,7 +514,7 @@ impl TabPanel {
                             })
                         }
                     })
-                    .anchor(Anchor::TopRight),
+                    .anchor(AnchorCorner::TopRight),
             )
     }
 

@@ -289,7 +289,7 @@ pub struct PopupMenu {
     external_link_icon: bool,
     scroll_handle: ScrollHandle,
     // This will update on render
-    submenu_anchor: (Anchor, Pixels),
+    submenu_anchor: (AnchorCorner, Pixels),
 
     _subscriptions: Vec<Subscription>,
 }
@@ -311,7 +311,7 @@ impl PopupMenu {
             scroll_handle: ScrollHandle::default(),
             external_link_icon: true,
             size: Size::default(),
-            submenu_anchor: (Anchor::TopLeft, Pixels::ZERO),
+            submenu_anchor: (AnchorCorner::TopLeft, Pixels::ZERO),
             _subscriptions: vec![],
         }
     }
@@ -833,7 +833,7 @@ impl PopupMenu {
     }
 
     fn select_left(&mut self, _: &SelectLeft, window: &mut Window, cx: &mut Context<Self>) {
-        let handled = if matches!(self.submenu_anchor.0, Anchor::TopLeft | Anchor::BottomLeft) {
+        let handled = if matches!(self.submenu_anchor.0, AnchorCorner::TopLeft | AnchorCorner::BottomLeft) {
             self._unselect_submenu(window, cx)
         } else {
             self._select_submenu(window, cx)
@@ -854,7 +854,7 @@ impl PopupMenu {
     }
 
     fn select_right(&mut self, _: &SelectRight, window: &mut Window, cx: &mut Context<Self>) {
-        let handled = if matches!(self.submenu_anchor.0, Anchor::TopLeft | Anchor::BottomLeft) {
+        let handled = if matches!(self.submenu_anchor.0, AnchorCorner::TopLeft | AnchorCorner::BottomLeft) {
             self._select_submenu(window, cx)
         } else {
             self._unselect_submenu(window, cx)
@@ -925,8 +925,8 @@ impl PopupMenu {
         };
 
         match parent.read(cx).submenu_anchor.0 {
-            Anchor::TopLeft | Anchor::BottomLeft => Side::Left,
-            Anchor::TopRight | Anchor::BottomRight => Side::Right,
+            AnchorCorner::TopLeft | AnchorCorner::BottomLeft => Side::Left,
+            AnchorCorner::TopRight | AnchorCorner::BottomRight => Side::Right,
             // Center anchors are not used for submenu positioning, but we must cover them.
             _ => Side::Left,
         }
@@ -1039,9 +1039,9 @@ impl PopupMenu {
         let bounds = self.bounds;
         let max_width = self.max_width();
         let (anchor, left) = if max_width + bounds.origin.x > window.bounds().size.width {
-            (Anchor::TopRight, -px(16.))
+            (AnchorCorner::TopRight, -px(16.))
         } else {
-            (Anchor::TopLeft, bounds.size.width - px(8.))
+            (AnchorCorner::TopLeft, bounds.size.width - px(8.))
         };
 
         let is_bottom_pos = bounds.origin.y + bounds.size.height > window.bounds().size.height;
@@ -1236,7 +1236,7 @@ impl PopupMenu {
                     this.child({
                         let (anchor, left) = self.submenu_anchor;
                         let is_bottom_pos =
-                            matches!(anchor, Anchor::BottomLeft | Anchor::BottomRight);
+                            matches!(anchor, AnchorCorner::BottomLeft | AnchorCorner::BottomRight);
                         anchored()
                             .anchor(anchor)
                             .child(

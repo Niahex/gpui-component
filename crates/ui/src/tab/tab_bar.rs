@@ -501,7 +501,7 @@ impl RenderOnce for TabBar {
 
                             this
                         })
-                        .anchor(Anchor::TopRight),
+                        .anchor(AnchorCorner::TopRight),
                 )
             })
             .when_some(self.suffix, |this, suffix| this.child(suffix))
