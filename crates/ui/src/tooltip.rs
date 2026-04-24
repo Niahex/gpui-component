@@ -1,7 +1,7 @@
 use std::{cell::Cell, rc::Rc, time::Duration};
 
 use gpui::{
-    Action, Anchor, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half,
+    Action, AnchorCorner, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half,
     IntoElement, ParentElement, Pixels, Render, SharedString, StatefulInteractiveElement,
     StyleRefinement, Styled, Task, Window, anchored, deferred, div, point,
     prelude::FluentBuilder, px,

@@ -1,6 +1,6 @@
 use gpui::Corners;
 use gpui::{
-    Anchor, App, Context, Edges, ElementId, InteractiveElement as _, IntoElement,
+    AnchorCorner, App, Context, Edges, ElementId, InteractiveElement as _, IntoElement,
     ParentElement, RenderOnce, SharedString, StyleRefinement, Styled, Window, div,
     prelude::FluentBuilder,
 };

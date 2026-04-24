@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
 use gpui::{
-    Anchor, AnyElement, App, IntoElement, SharedString, StyleRefinement, Styled, Window,
+    AnchorCorner, AnyElement, App, IntoElement, SharedString, StyleRefinement, Styled, Window,
     prelude::FluentBuilder as _,
 };
 

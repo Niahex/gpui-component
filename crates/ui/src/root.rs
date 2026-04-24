@@ -9,7 +9,7 @@ use crate::{
     window_border,
 };
 use gpui::{
-    Anchor, AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle,
+    AnchorCorner, AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle,
     InteractiveElement, IntoElement, KeyBinding, ParentElement as _, Pixels, Render,
     StyleRefinement, Styled, WeakFocusHandle, Window, actions, div, prelude::FluentBuilder as _,
 };
