@@ -272,7 +272,11 @@ impl SyntaxHighlighter {
                         ciq.disable_pattern(pattern_index);
                     }
                 }
-                if has_combined_query { Some(Arc::new(ciq)) } else { None }
+                if has_combined_query {
+                    Some(Arc::new(ciq))
+                } else {
+                    None
+                }
             } else {
                 None
             }

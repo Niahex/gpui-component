@@ -1,12 +1,12 @@
-use gpui::{ AnchorCorner,
-    Action, App, AppContext as _, Context, Entity, Focusable, IntoElement,
-    ParentElement as _, Render, Styled as _, Window, prelude::FluentBuilder as _,
+use gpui::{
+    Action, App, AppContext as _, Context, Entity, Focusable, IntoElement, ParentElement as _,
+    Render, Styled as _, Window, prelude::FluentBuilder as _,
 };
 use serde::Deserialize;
 
 use crate::section;
 use gpui_component::{
-    ActiveTheme, Disableable, Selectable as _, Sizable as _, Theme,
+    ActiveTheme, AnchorPosition, Disableable, Selectable as _, Sizable as _, Theme,
     button::{Button, ButtonVariants as _, DropdownButton},
     checkbox::Checkbox,
     h_flex, v_flex,
@@ -134,20 +134,31 @@ impl Render for DropdownButtonStory {
                         .loading(self.loading)
                         .disabled(self.disabled)
                         .selected(selected)
-                        .dropdown_menu_with_anchor(AnchorCorner::BottomRight, move |this, _, _| {
-                            this.menu_with_check(
-                                "Disabled",
-                                disabled,
-                                Box::new(ButtonAction::Disabled),
-                            )
-                            .menu_with_check("Loading", loading, Box::new(ButtonAction::Loading))
-                            .menu_with_check("Selected", selected, Box::new(ButtonAction::Selected))
-                            .menu_with_check(
-                                "Compact",
-                                compact,
-                                Box::new(ButtonAction::Compact),
-                            )
-                        }),
+                        .dropdown_menu_with_anchor(
+                            AnchorPosition::BottomRight,
+                            move |this, _, _| {
+                                this.menu_with_check(
+                                    "Disabled",
+                                    disabled,
+                                    Box::new(ButtonAction::Disabled),
+                                )
+                                .menu_with_check(
+                                    "Loading",
+                                    loading,
+                                    Box::new(ButtonAction::Loading),
+                                )
+                                .menu_with_check(
+                                    "Selected",
+                                    selected,
+                                    Box::new(ButtonAction::Selected),
+                                )
+                                .menu_with_check(
+                                    "Compact",
+                                    compact,
+                                    Box::new(ButtonAction::Compact),
+                                )
+                            },
+                        ),
                 ),
             )
             .child(

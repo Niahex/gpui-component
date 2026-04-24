@@ -1,9 +1,9 @@
-use gpui::{ AnchorCorner,
+use gpui::{
     Action, App, AppContext, Context, Entity, InteractiveElement, IntoElement, KeyBinding,
     ParentElement as _, Render, SharedString, Styled as _, Window, actions, div, px,
 };
 use gpui_component::{
-    ActiveTheme as _, IconName, Side, StyledExt,
+    ActiveTheme as _, AnchorPosition, IconName, Side, StyledExt,
     button::Button,
     h_flex,
     menu::{ContextMenuExt, DropdownMenu as _, PopupMenuItem},
@@ -335,41 +335,47 @@ impl Render for MenuStory {
                         Button::new("dropdown-menu-scrollable-1")
                             .outline()
                             .label("Scrollable Menu (100 items)")
-                            .dropdown_menu_with_anchor(AnchorCorner::TopRight, move |this, _, _| {
-                                let mut this = this
-                                    .scrollable(true)
-                                    .max_h(px(300.))
-                                    .label(format!("Total {} items", 100));
-                                for i in 0..100 {
-                                    if i % 5 == 0 {
-                                        this = this.separator();
-                                    }
+                            .dropdown_menu_with_anchor(
+                                AnchorPosition::TopRight,
+                                move |this, _, _| {
+                                    let mut this = this
+                                        .scrollable(true)
+                                        .max_h(px(300.))
+                                        .label(format!("Total {} items", 100));
+                                    for i in 0..100 {
+                                        if i % 5 == 0 {
+                                            this = this.separator();
+                                        }
 
-                                    this = this.menu(
-                                        SharedString::from(format!("Item {}", i)),
-                                        Box::new(Info(i)),
-                                    )
-                                }
-                                this.min_w(px(100.))
-                            }),
+                                        this = this.menu(
+                                            SharedString::from(format!("Item {}", i)),
+                                            Box::new(Info(i)),
+                                        )
+                                    }
+                                    this.min_w(px(100.))
+                                },
+                            ),
                     )
                     .child(
                         Button::new("dropdown-menu-scrollable-2")
                             .outline()
                             .label("Scrollable Menu (5 items)")
-                            .dropdown_menu_with_anchor(AnchorCorner::TopRight, move |this, _, _| {
-                                let mut this = this
-                                    .scrollable(true)
-                                    .max_h(px(300.))
-                                    .label(format!("Total {} items", 100));
-                                for i in 0..5 {
-                                    this = this.menu(
-                                        SharedString::from(format!("Item {}", i)),
-                                        Box::new(Info(i)),
-                                    )
-                                }
-                                this.min_w(px(100.))
-                            }),
+                            .dropdown_menu_with_anchor(
+                                AnchorPosition::TopRight,
+                                move |this, _, _| {
+                                    let mut this = this
+                                        .scrollable(true)
+                                        .max_h(px(300.))
+                                        .label(format!("Total {} items", 100));
+                                    for i in 0..5 {
+                                        this = this.menu(
+                                            SharedString::from(format!("Item {}", i)),
+                                            Box::new(Info(i)),
+                                        )
+                                    }
+                                    this.min_w(px(100.))
+                                },
+                            ),
                     ),
             )
     }

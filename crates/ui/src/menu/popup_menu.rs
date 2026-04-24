@@ -5,7 +5,7 @@ use crate::scroll::ScrollableElement;
 use crate::{ActiveTheme, ElementExt, Icon, IconName, Sizable as _, h_flex, v_flex};
 use crate::{Side, Size, StyledExt, kbd::Kbd};
 use gpui::{
-    Action, Corner, AnyElement, App, AppContext, Bounds, Context, DismissEvent, Edges, Entity,
+    Action, AnyElement, App, AppContext, Bounds, Context, Corner, DismissEvent, Edges, Entity,
     EventEmitter, FocusHandle, Focusable, InteractiveElement, IntoElement, KeyBinding,
     ParentElement, Pixels, Render, ScrollHandle, SharedString, StatefulInteractiveElement, Styled,
     WeakEntity, Window, anchored, div, prelude::FluentBuilder, px, rems,
@@ -1046,7 +1046,7 @@ impl PopupMenu {
 
         let is_bottom_pos = bounds.origin.y + bounds.size.height > window.bounds().size.height;
         self.submenu_anchor = if is_bottom_pos {
-            (anchor.other_side_along(gpui::Axis::Vertical), left)
+            (anchor.other_side_corner_along(gpui::Axis::Vertical), left)
         } else {
             (anchor, left)
         };

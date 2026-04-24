@@ -1,7 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use gpui::{
-    Corner, AnyElement, App, Context, DismissEvent, Element, ElementId, Entity, Focusable,
+    AnyElement, App, Context, Corner, DismissEvent, Element, ElementId, Entity, Focusable,
     GlobalElementId, Hitbox, HitboxBehavior, InspectorElementId, InteractiveElement, IntoElement,
     MouseButton, MouseDownEvent, ParentElement, Pixels, Point, StyleRefinement, Styled,
     Subscription, Window, anchored, deferred, div, prelude::FluentBuilder, px,

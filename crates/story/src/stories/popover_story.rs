@@ -1,10 +1,10 @@
-use gpui::{ AnchorCorner,
+use gpui::{
     Action, App, AppContext, Context, DismissEvent, Entity, EventEmitter, FocusHandle, Focusable,
     Half, InteractiveElement, IntoElement, KeyBinding, MouseButton, ParentElement as _, Render,
     Styled as _, Window, actions, div, px,
 };
 use gpui_component::{
-    ActiveTheme, StyledExt, WindowExt,
+    ActiveTheme, AnchorPosition, StyledExt, WindowExt,
     button::{Button, ButtonVariants as _},
     divider::Divider,
     h_flex,
@@ -349,20 +349,20 @@ impl Render for PopoverStory {
                                 .child(
                                     Popover::new("anchor-top-left")
                                         .max_w(px(600.))
-                                        .anchor(AnchorCorner::TopLeft)
+                                        .anchor(AnchorPosition::TopLeft)
                                         .trigger(Button::new("btn").outline().label("TopLeft"))
                                         .child("This is a Popover on the Top Left."),
                                 )
                                 .child(
                                     Popover::new("anchor-top-center")
                                         .max_w(px(600.))
-                                        .anchor(AnchorCorner::TopCenter)
+                                        .anchor(AnchorPosition::TopCenter)
                                         .trigger(Button::new("btn").outline().label("TopCenter"))
                                         .child("This is a Popover on the Top Center."),
                                 )
                                 .child(
                                     Popover::new("anchor-top-right")
-                                        .anchor(AnchorCorner::TopRight)
+                                        .anchor(AnchorPosition::TopRight)
                                         .trigger(Button::new("btn").outline().label("TopRight"))
                                         .child("This is a Popover on the Top Right."),
                                 ),
@@ -376,18 +376,18 @@ impl Render for PopoverStory {
                                 .child(
                                     Popover::new("anchor-bottom-left")
                                         .trigger(Button::new("btn").outline().label("BottomLeft"))
-                                        .anchor(AnchorCorner::BottomLeft)
+                                        .anchor(AnchorPosition::BottomLeft)
                                         .child("This is a Popover on the Bottom Left."),
                                 )
                                 .child(
                                     Popover::new("anchor-bottom-center")
                                         .trigger(Button::new("btn").outline().label("BottomCenter"))
-                                        .anchor(AnchorCorner::BottomCenter)
+                                        .anchor(AnchorPosition::BottomCenter)
                                         .child("This is a Popover on the Bottom Center."),
                                 )
                                 .child(
                                     Popover::new("anchor-bottom-right")
-                                        .anchor(AnchorCorner::BottomRight)
+                                        .anchor(AnchorPosition::BottomRight)
                                         .trigger(Button::new("btn").outline().label("BottomRight"))
                                         .child("This is a Popover on the Bottom Right."),
                                 ),

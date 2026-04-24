@@ -1,14 +1,13 @@
 use std::{cell::Cell, rc::Rc, time::Duration};
 
 use gpui::{
-    Action, Corner, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half,
-    IntoElement, ParentElement, Pixels, Render, SharedString, StatefulInteractiveElement,
-    StyleRefinement, Styled, Task, Window, anchored, deferred, div, point,
-    prelude::FluentBuilder, px,
+    Action, AnyElement, AnyView, App, AppContext, Bounds, Context, ElementId, Half, IntoElement,
+    ParentElement, Pixels, Render, SharedString, StatefulInteractiveElement, StyleRefinement,
+    Styled, Task, Window, anchored, deferred, div, point, prelude::FluentBuilder, px,
 };
 
 use crate::{
-    ActiveTheme, StyledExt,
+    ActiveTheme, AnchorPosition, StyledExt,
     animation::{Transition, ease_in_out_cubic, ease_out_cubic},
     h_flex,
     kbd::Kbd,
@@ -285,7 +284,7 @@ impl Render for TooltipOverlay {
             anchored()
                 .snap_to_window_with_margin(px(4.))
                 .position(anchor_position)
-                .anchor(Corner::BottomCenter)
+                .anchor(AnchorPosition::BottomCenter.to_corner())
                 .child(div().child(content_view).map(|el| {
                     if is_switching {
                         let Some(prev_bounds) = prev_trigger_bounds else {

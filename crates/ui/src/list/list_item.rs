@@ -1,5 +1,4 @@
 use crate::{ActiveTheme, Disableable, Icon, Selectable, Sizable as _, StyledExt, h_flex};
-use std::collections::HashMap;
 use gpui::{
     AnyElement, App, ClickEvent, Div, ElementId, InteractiveElement, IntoElement, MouseButton,
     MouseDownEvent, MouseMoveEvent, ParentElement, RenderOnce, Stateful,
@@ -7,6 +6,7 @@ use gpui::{
     prelude::FluentBuilder as _,
 };
 use smallvec::SmallVec;
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 enum ListItemMode {
@@ -33,7 +33,8 @@ pub struct ListItem {
     confirmed: bool,
     check_icon: Option<Icon>,
     on_click: Option<Box<dyn Fn(&ClickEvent, &mut Window, &mut App) + 'static>>,
-    on_mouse_down: HashMap<MouseButton, Box<dyn Fn(&MouseDownEvent, &mut Window, &mut App) + 'static>>,
+    on_mouse_down:
+        HashMap<MouseButton, Box<dyn Fn(&MouseDownEvent, &mut Window, &mut App) + 'static>>,
     on_mouse_enter: Option<Box<dyn Fn(&MouseMoveEvent, &mut Window, &mut App) + 'static>>,
     suffix: Option<Box<dyn Fn(&mut Window, &mut App) -> AnyElement + 'static>>,
     children: SmallVec<[AnyElement; 2]>,

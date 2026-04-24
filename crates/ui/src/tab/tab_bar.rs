@@ -1,5 +1,5 @@
 use gpui::{
-    Corner, Animation, AnimationExt as _, AnyElement, App, Bounds, Div, Edges, ElementId,
+    Animation, AnimationExt as _, AnyElement, App, Bounds, Corner, Div, Edges, ElementId,
     InteractiveElement, IntoElement, ParentElement, Pixels, RenderOnce, ScrollHandle, Stateful,
     StatefulInteractiveElement as _, StyleRefinement, Styled, Window, div,
     prelude::FluentBuilder as _, px,
@@ -11,7 +11,9 @@ use super::{Tab, TabVariant};
 use crate::animation::{Lerp, ease_in_out_cubic};
 use crate::button::{Button, ButtonVariants as _};
 use crate::menu::{DropdownMenu as _, PopupMenuItem};
-use crate::{ActiveTheme, ElementExt, IconName, Selectable, Sizable, Size, StyledExt, h_flex};
+use crate::{
+    ActiveTheme, AnchorPosition, ElementExt, IconName, Selectable, Sizable, Size, StyledExt, h_flex,
+};
 
 struct TabIndicatorBounds {
     container: Bounds<Pixels>,
@@ -501,7 +503,7 @@ impl RenderOnce for TabBar {
 
                             this
                         })
-                        .anchor(Corner::TopRight),
+                        .anchor(AnchorPosition::TopRight),
                 )
             })
             .when_some(self.suffix, |this, suffix| this.child(suffix))

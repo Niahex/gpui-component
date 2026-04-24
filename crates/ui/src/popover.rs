@@ -1,5 +1,5 @@
 use gpui::{
-    Corner, AnyElement, App, Bounds, Context, Deferred, DismissEvent, Div, ElementId, EventEmitter,
+    AnyElement, App, Bounds, Context, Deferred, DismissEvent, Div, ElementId, EventEmitter,
     FocusHandle, Focusable, InteractiveElement as _, IntoElement, KeyBinding, MouseButton,
     ParentElement, Pixels, Point, Render, RenderOnce, Stateful, StyleRefinement, Styled,
     Subscription, Window, anchored, deferred, div, prelude::FluentBuilder as _, px,
@@ -7,7 +7,8 @@ use gpui::{
 use std::{cell::Cell, rc::Rc};
 
 use crate::{
-    ElementExt, Selectable, StyledExt as _, actions::Cancel, global_state::GlobalState, v_flex,
+    AnchorPosition, ElementExt, Selectable, StyledExt as _, actions::Cancel,
+    global_state::GlobalState, v_flex,
 };
 
 const CONTEXT: &str = "Popover";
@@ -20,7 +21,7 @@ pub(crate) fn init(cx: &mut App) {
 pub struct Popover {
     id: ElementId,
     style: StyleRefinement,
-    anchor: Corner,
+    anchor: AnchorPosition,
     default_open: bool,
     open: Option<bool>,
     tracked_focus_handle: Option<FocusHandle>,
@@ -47,7 +48,7 @@ impl Popover {
         Self {
             id: id.into(),
             style: StyleRefinement::default(),
-            anchor: Corner::TopLeft,
+            anchor: AnchorPosition::TopLeft,
             trigger: None,
             trigger_style: None,
             content: None,
@@ -62,12 +63,9 @@ impl Popover {
         }
     }
 
-    /// Set the anchor corner of the popover, default is `Corner::TopLeft`.
-    ///
-    /// This method is kept for backward compatibility with `Anchor` type.
-    /// Internally, it converts `Anchor` to `Anchor`.
-    pub fn anchor(mut self, anchor: impl Into<Anchor>) -> Self {
-        self.anchor = anchor.into();
+    /// Set the anchor corner of the popover, default is `AnchorPosition::TopLeft`.
+    pub fn anchor(mut self, anchor: AnchorPosition) -> Self {
+        self.anchor = anchor;
         self
     }
 
@@ -170,30 +168,36 @@ impl Popover {
     }
 
     pub(crate) fn resolved_corner(
-        anchor: Corner,
+        anchor: AnchorPosition,
         trigger_bounds: Bounds<Pixels>,
     ) -> Point<Pixels> {
         match anchor {
-            Corner::TopLeft => trigger_bounds.origin,
-            Corner::TopCenter => Point {
+            AnchorPosition::TopLeft => trigger_bounds.origin,
+            AnchorPosition::TopCenter => Point {
                 x: trigger_bounds.center().x,
                 y: trigger_bounds.origin.y,
             },
-            Corner::TopRight => trigger_bounds.top_right(),
-            Corner::BottomLeft => Point {
+            AnchorPosition::TopRight => trigger_bounds.top_right(),
+            AnchorPosition::BottomLeft => Point {
                 x: trigger_bounds.origin.x,
                 y: trigger_bounds.origin.y - trigger_bounds.size.height,
             },
-            Corner::BottomCenter => Point {
+            AnchorPosition::BottomCenter => Point {
                 x: trigger_bounds.center().x,
                 y: trigger_bounds.origin.y - trigger_bounds.size.height,
             },
-            Corner::BottomRight => Point {
+            AnchorPosition::BottomRight => Point {
                 x: trigger_bounds.top_right().x,
                 y: trigger_bounds.origin.y - trigger_bounds.size.height,
             },
-            // Fallback for LeftCenter/RightCenter – adjust as needed.
-            _ => trigger_bounds.origin,
+            AnchorPosition::LeftCenter => Point {
+                x: trigger_bounds.origin.x,
+                y: trigger_bounds.center().y,
+            },
+            AnchorPosition::RightCenter => Point {
+                x: trigger_bounds.top_right().x,
+                y: trigger_bounds.center().y,
+            },
         }
     }
 }
@@ -327,7 +331,7 @@ impl EventEmitter<DismissEvent> for PopoverState {}
 
 impl Popover {
     pub(crate) fn render_popover<E>(
-        anchor: Corner,
+        anchor: AnchorPosition,
         position: Rc<Cell<Point<Pixels>>>,
         content: E,
         _: &mut Window,
@@ -339,7 +343,7 @@ impl Popover {
         deferred(
             anchored()
                 .snap_to_window_with_margin(px(8.))
-                .anchor(anchor)
+                .anchor(anchor.to_corner())
                 .position(position.get())
                 .child(div().relative().child(content)),
         )
@@ -347,7 +351,7 @@ impl Popover {
     }
 
     pub(crate) fn render_popover_content(
-        anchor: Corner,
+        anchor: AnchorPosition,
         appearance: bool,
         _: &mut Window,
         cx: &mut App,
@@ -358,13 +362,13 @@ impl Popover {
             .tab_group()
             .when(appearance, |this| this.popover_style(cx).p_3())
             .map(|this| match anchor {
-                Corner::TopLeft | Corner::TopCenter | Corner::TopRight => {
+                AnchorPosition::TopLeft | AnchorPosition::TopCenter | AnchorPosition::TopRight => {
                     this.top_1()
                 }
-                Corner::BottomLeft
-                | Corner::BottomCenter
-                | Corner::BottomRight => this.bottom_1(),
-                Corner::LeftCenter | Corner::RightCenter => this.top_1(), // Fallback for centered
+                AnchorPosition::BottomLeft
+                | AnchorPosition::BottomCenter
+                | AnchorPosition::BottomRight => this.bottom_1(),
+                AnchorPosition::LeftCenter | AnchorPosition::RightCenter => this.top_1(),
             })
     }
 }
@@ -486,13 +490,13 @@ mod tests {
     #[test]
     fn test_popover_builder_chaining() {
         let popover = Popover::new("test")
-            .anchor(Corner::BottomCenter)
+            .anchor(AnchorPosition::BottomCenter)
             .mouse_button(MouseButton::Right)
             .default_open(true)
             .appearance(false)
             .overlay_closable(false);
 
-        assert_eq!(popover.anchor, Corner::BottomCenter);
+        assert_eq!(popover.anchor, AnchorPosition::BottomCenter);
         assert_eq!(popover.mouse_button, MouseButton::Right);
         assert!(popover.default_open);
         assert!(!popover.appearance);
@@ -514,27 +518,27 @@ mod tests {
             },
         };
 
-        let pos = Popover::resolved_corner(Corner::TopLeft, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::TopLeft, bounds);
         assert_eq!(pos.x, px(100.));
         assert_eq!(pos.y, px(100.));
 
-        let pos = Popover::resolved_corner(Corner::TopCenter, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::TopCenter, bounds);
         assert_eq!(pos.x, px(200.));
         assert_eq!(pos.y, px(100.));
 
-        let pos = Popover::resolved_corner(Corner::TopRight, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::TopRight, bounds);
         assert_eq!(pos.x, px(300.));
         assert_eq!(pos.y, px(100.));
 
-        let pos = Popover::resolved_corner(Corner::BottomLeft, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::BottomLeft, bounds);
         assert_eq!(pos.x, px(100.));
         assert_eq!(pos.y, px(50.));
 
-        let pos = Popover::resolved_corner(Corner::BottomCenter, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::BottomCenter, bounds);
         assert_eq!(pos.x, px(200.));
         assert_eq!(pos.y, px(50.));
 
-        let pos = Popover::resolved_corner(Corner::BottomRight, bounds);
+        let pos = Popover::resolved_corner(AnchorPosition::BottomRight, bounds);
         assert_eq!(pos.x, px(300.));
         assert_eq!(pos.y, px(50.));
     }

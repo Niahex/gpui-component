@@ -1,10 +1,10 @@
-use gpui::{ AnchorCorner,
+use gpui::{
     App, AppContext as _, Context, Entity, IntoElement, ParentElement as _, Render, Styled as _,
     Window, div, px, relative,
 };
 use gpui_component::{
-    ActiveTheme, StyledExt, avatar::Avatar, button::Button, h_flex, hover_card::HoverCard,
-    v_flex,
+    ActiveTheme, AnchorPosition, StyledExt, avatar::Avatar, button::Button, h_flex,
+    hover_card::HoverCard, v_flex,
 };
 use std::time::Duration;
 
@@ -139,19 +139,19 @@ impl HoverCardStory {
                         .gap_4()
                         .child(
                             HoverCard::new("anchor-top-left")
-                                .anchor(AnchorCorner::TopLeft)
+                                .anchor(AnchorPosition::TopLeft)
                                 .trigger(Button::new("tl").label("Top Left").outline())
                                 .child(div().child("Positioned at Top Left").text_sm()),
                         )
                         .child(
                             HoverCard::new("anchor-top-center")
-                                .anchor(AnchorCorner::TopCenter)
+                                .anchor(AnchorPosition::TopCenter)
                                 .trigger(Button::new("tc").label("Top Center").outline())
                                 .child(div().child("Positioned at Top Center").text_sm()),
                         )
                         .child(
                             HoverCard::new("anchor-top-right")
-                                .anchor(AnchorCorner::TopRight)
+                                .anchor(AnchorPosition::TopRight)
                                 .trigger(Button::new("tr").label("Top Right").outline())
                                 .child(div().child("Positioned at Top Right").text_sm()),
                         ),
@@ -162,19 +162,19 @@ impl HoverCardStory {
                         .gap_4()
                         .child(
                             HoverCard::new("anchor-bottom-left")
-                                .anchor(AnchorCorner::BottomLeft)
+                                .anchor(AnchorPosition::BottomLeft)
                                 .trigger(Button::new("bl").label("Bottom Left").outline())
                                 .child(div().child("Positioned at Bottom Left").text_sm()),
                         )
                         .child(
                             HoverCard::new("anchor-bottom-center")
-                                .anchor(AnchorCorner::BottomCenter)
+                                .anchor(AnchorPosition::BottomCenter)
                                 .trigger(Button::new("bc").label("Bottom Center").outline())
                                 .child(div().child("Positioned at Bottom Center").text_sm()),
                         )
                         .child(
                             HoverCard::new("anchor-bottom-right")
-                                .anchor(AnchorCorner::BottomRight)
+                                .anchor(AnchorPosition::BottomRight)
                                 .trigger(Button::new("br").label("Bottom Right").outline())
                                 .child(div().child("Positioned at Bottom Right").text_sm()),
                         ),

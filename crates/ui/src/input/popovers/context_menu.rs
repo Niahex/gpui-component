@@ -1,5 +1,5 @@
 use gpui::{
-    Corner, App, AppContext as _, Context, DismissEvent, Entity, IntoElement, MouseDownEvent,
+    App, AppContext as _, Context, Corner, DismissEvent, Entity, IntoElement, MouseDownEvent,
     ParentElement as _, Pixels, Point, Render, Styled, Subscription, Window, anchored, deferred,
     div, prelude::FluentBuilder as _, px,
 };

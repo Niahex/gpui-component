@@ -1,11 +1,11 @@
 use std::rc::Rc;
 
 use gpui::{
-    Corner, Context, DismissEvent, ElementId, Entity, Focusable, InteractiveElement, IntoElement,
+    Context, DismissEvent, ElementId, Entity, Focusable, InteractiveElement, IntoElement,
     RenderOnce, SharedString, StyleRefinement, Styled, Window,
 };
 
-use crate::{Selectable, button::Button, menu::PopupMenu, popover::Popover};
+use crate::{AnchorPosition, Selectable, button::Button, menu::PopupMenu, popover::Popover};
 
 /// A dropdown menu trait for buttons and other interactive elements
 pub trait DropdownMenu: Styled + Selectable + InteractiveElement + IntoElement + 'static {
@@ -14,13 +14,13 @@ pub trait DropdownMenu: Styled + Selectable + InteractiveElement + IntoElement +
         self,
         f: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> DropdownMenuPopover<Self> {
-        self.dropdown_menu_with_anchor(Corner::TopLeft, f)
+        self.dropdown_menu_with_anchor(AnchorPosition::TopLeft, f)
     }
 
     /// Create a dropdown menu with the given items, anchored to the given corner
     fn dropdown_menu_with_anchor(
         mut self,
-        anchor: impl Into<Anchor>,
+        anchor: AnchorPosition,
         f: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> DropdownMenuPopover<Self> {
         let style = self.style().clone();
@@ -36,7 +36,7 @@ impl DropdownMenu for Button {}
 pub struct DropdownMenuPopover<T: Selectable + IntoElement + 'static> {
     id: ElementId,
     style: StyleRefinement,
-    anchor: Corner,
+    anchor: AnchorPosition,
     trigger: T,
     builder: Rc<dyn Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu>,
 }
@@ -47,22 +47,22 @@ where
 {
     fn new(
         id: ElementId,
-        anchor: impl Into<Anchor>,
+        anchor: AnchorPosition,
         trigger: T,
         builder: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> Self {
         Self {
             id: SharedString::from(format!("dropdown-menu:{:?}", id)).into(),
             style: StyleRefinement::default(),
-            anchor: anchor.into(),
+            anchor,
             trigger,
             builder: Rc::new(builder),
         }
     }
 
     /// Set the anchor corner for the dropdown menu popover.
-    pub fn anchor(mut self, anchor: impl Into<Anchor>) -> Self {
-        self.anchor = anchor.into();
+    pub fn anchor(mut self, anchor: AnchorPosition) -> Self {
+        self.anchor = anchor;
         self
     }
 

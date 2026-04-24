@@ -1,12 +1,12 @@
 use gpui::{
-    Corner, AnyElement, App, Bounds, Context, ElementId, InteractiveElement as _, IntoElement,
+    AnyElement, App, Bounds, Context, ElementId, InteractiveElement as _, IntoElement,
     ParentElement, Pixels, Render, RenderOnce, StatefulInteractiveElement, StyleRefinement, Styled,
     Task, Window, div, prelude::FluentBuilder as _,
 };
 use instant::Duration;
 use std::{cell::Cell, rc::Rc};
 
-use crate::{ElementExt, StyledExt as _, popover::Popover};
+use crate::{AnchorPosition, ElementExt, StyledExt as _, popover::Popover};
 
 /// A hover card element that displays content when hovering over a trigger element.
 ///
@@ -16,7 +16,7 @@ use crate::{ElementExt, StyledExt as _, popover::Popover};
 pub struct HoverCard {
     id: ElementId,
     style: StyleRefinement,
-    anchor: Corner,
+    anchor: AnchorPosition,
     trigger: Option<Box<dyn FnOnce(&mut Window, &App) -> AnyElement + 'static>>,
     content: Option<
         Rc<
@@ -37,7 +37,7 @@ impl HoverCard {
         Self {
             id: id.into(),
             style: StyleRefinement::default(),
-            anchor: Corner::TopCenter,
+            anchor: AnchorPosition::TopCenter,
             trigger: None,
             content: None,
             children: vec![],
@@ -48,9 +48,9 @@ impl HoverCard {
         }
     }
 
-    /// Set the anchor corner of the hover card, default is [`Corner::TopCenter`].
-    pub fn anchor(mut self, anchor: impl Into<Anchor>) -> Self {
-        self.anchor = anchor.into();
+    /// Set the anchor corner of the hover card, default is [`AnchorPosition::TopCenter`].
+    pub fn anchor(mut self, anchor: AnchorPosition) -> Self {
+        self.anchor = anchor;
         self
     }
 

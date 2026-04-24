@@ -1,12 +1,11 @@
 use gpui::Corners;
 use gpui::{
-    Corner, App, Context, Edges, ElementId, InteractiveElement as _, IntoElement,
-    ParentElement, RenderOnce, SharedString, StyleRefinement, Styled, Window, div,
-    prelude::FluentBuilder,
+    App, Context, Edges, ElementId, InteractiveElement as _, IntoElement, ParentElement,
+    RenderOnce, SharedString, StyleRefinement, Styled, Window, div, prelude::FluentBuilder,
 };
 
 use crate::{
-    Disableable, IconName, Selectable, Sizable, Size, StyledExt as _,
+    AnchorPosition, Disableable, IconName, Selectable, Sizable, Size, StyledExt as _,
     menu::{DropdownMenu, PopupMenu},
     tooltip::ComponentTooltip,
 };
@@ -29,7 +28,7 @@ pub struct DropdownButton {
     variant: ButtonVariant,
     size: Size,
     rounded: ButtonRounded,
-    anchor: Corner,
+    anchor: AnchorPosition,
     tooltip: ComponentTooltip,
 }
 
@@ -49,7 +48,7 @@ impl DropdownButton {
             variant: ButtonVariant::default(),
             size: Size::default(),
             rounded: ButtonRounded::default(),
-            anchor: Corner::TopRight,
+            anchor: AnchorPosition::TopRight,
             tooltip: ComponentTooltip::default(),
         }
     }
@@ -78,11 +77,11 @@ impl DropdownButton {
     /// Set the dropdown menu of the button with anchor corner.
     pub fn dropdown_menu_with_anchor(
         mut self,
-        anchor: impl Into<Anchor>,
+        anchor: AnchorPosition,
         menu: impl Fn(PopupMenu, &mut Window, &mut Context<PopupMenu>) -> PopupMenu + 'static,
     ) -> Self {
         self.menu = Some(Box::new(menu));
-        self.anchor = anchor.into();
+        self.anchor = anchor;
         self
     }
 

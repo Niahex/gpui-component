@@ -1,12 +1,13 @@
 use std::rc::Rc;
 
 use gpui::{
-    Anchor, AnyElement, App, AppContext, Context, Entity, FocusHandle, InteractiveElement as _,
+    AnyElement, App, AppContext, Context, Entity, FocusHandle, InteractiveElement as _,
     IntoElement, MouseButton, ParentElement as _, Render, SharedString, Styled as _, Subscription,
     Window, div, px,
 };
 use gpui_component::{
-    ActiveTheme as _, IconName, Side, Sizable as _, Theme, TitleBar, WindowExt as _,
+    ActiveTheme as _, AnchorPosition, IconName, Side, Sizable as _, Theme, TitleBar,
+    WindowExt as _,
     badge::Badge,
     button::{Button, ButtonVariants as _},
     label::Label,
@@ -219,7 +220,7 @@ impl Render for FontSizeSelector {
                                 Box::new(ToggleListActiveHighlight),
                             )
                     })
-                    .anchor(AnchorCorner::TopRight),
+                    .anchor(AnchorPosition::TopRight),
             )
     }
 }

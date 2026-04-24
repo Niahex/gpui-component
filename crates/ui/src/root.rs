@@ -1,5 +1,5 @@
 use crate::{
-    ActiveTheme, ElementExt, Placement, StyledExt,
+    ActiveTheme, AnchorPosition, ElementExt, Placement, StyledExt,
     dialog::{ANIMATION_DURATION, Dialog},
     focus_trap::FocusTrapManager,
     input::InputState,
@@ -9,9 +9,9 @@ use crate::{
     window_border,
 };
 use gpui::{
-    Corner, AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle,
-    InteractiveElement, IntoElement, KeyBinding, ParentElement as _, Pixels, Render,
-    StyleRefinement, Styled, WeakFocusHandle, Window, actions, div, prelude::FluentBuilder as _,
+    AnyView, App, AppContext, Context, DefiniteLength, Entity, FocusHandle, InteractiveElement,
+    IntoElement, KeyBinding, ParentElement as _, Pixels, Render, StyleRefinement, Styled,
+    WeakFocusHandle, Window, actions, div, prelude::FluentBuilder as _,
 };
 use std::{any::TypeId, rc::Rc};
 
@@ -142,22 +142,22 @@ impl Root {
         Some(
             div()
                 .absolute()
-                .when(matches!(placement, Corner::TopRight), |this| {
+                .when(matches!(placement, AnchorPosition::TopRight), |this| {
                     this.top_0().right_0()
                 })
-                .when(matches!(placement, Corner::TopLeft), |this| {
+                .when(matches!(placement, AnchorPosition::TopLeft), |this| {
                     this.top_0().left_0()
                 })
-                .when(matches!(placement, Corner::TopCenter), |this| {
+                .when(matches!(placement, AnchorPosition::TopCenter), |this| {
                     this.top_0().mx_auto()
                 })
-                .when(matches!(placement, Corner::BottomRight), |this| {
+                .when(matches!(placement, AnchorPosition::BottomRight), |this| {
                     this.bottom_0().right_0()
                 })
-                .when(matches!(placement, Corner::BottomLeft), |this| {
+                .when(matches!(placement, AnchorPosition::BottomLeft), |this| {
                     this.bottom_0().left_0()
                 })
-                .when(matches!(placement, Corner::BottomCenter), |this| {
+                .when(matches!(placement, AnchorPosition::BottomCenter), |this| {
                     this.bottom_0().mx_auto()
                 })
                 .when_some(mt, |this, offset| this.mt(offset))

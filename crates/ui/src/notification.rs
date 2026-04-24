@@ -6,14 +6,15 @@ use std::{
 };
 
 use gpui::{
-    Corner, Animation, AnimationExt, AnyElement, App, AppContext, ClickEvent, Context,
-    DismissEvent, ElementId, Entity, EventEmitter, InteractiveElement as _, IntoElement,
-    ParentElement as _, Pixels, Render, SharedString, StatefulInteractiveElement, StyleRefinement,
-    Styled, Subscription, Window, div, prelude::FluentBuilder, px,
+    Animation, AnimationExt, AnyElement, App, AppContext, ClickEvent, Context, DismissEvent,
+    ElementId, Entity, EventEmitter, InteractiveElement as _, IntoElement, ParentElement as _,
+    Pixels, Render, SharedString, StatefulInteractiveElement, StyleRefinement, Styled,
+    Subscription, Window, div, prelude::FluentBuilder, px,
 };
 
 use crate::{
-    ActiveTheme as _, Edges, Icon, IconName, Sizable as _, StyledExt, TITLE_BAR_HEIGHT,
+    ActiveTheme as _, AnchorPosition, Edges, Icon, IconName, Sizable as _, StyledExt,
+    TITLE_BAR_HEIGHT,
     animation::cubic_bezier,
     button::{Button, ButtonVariants as _},
     h_flex, v_flex,
@@ -363,19 +364,19 @@ impl Render for Notification {
                             .opacity(opacity)
                             .when(opacity < 0.85, |this| this.shadow_none());
                         match placement {
-                            Corner::TopRight | Corner::BottomRight => {
+                            AnchorPosition::TopRight | AnchorPosition::BottomRight => {
                                 let x_offset = px(0.) + delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            Corner::TopLeft | Corner::BottomLeft => {
+                            AnchorPosition::TopLeft | AnchorPosition::BottomLeft => {
                                 let x_offset = px(0.) - delta * px(45.);
                                 that.left(px(0.) + x_offset)
                             }
-                            Corner::TopCenter => {
+                            AnchorPosition::TopCenter => {
                                 let y_offset = px(0.) - delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
-                            Corner::BottomCenter => {
+                            AnchorPosition::BottomCenter => {
                                 let y_offset = px(0.) + delta * px(45.);
                                 that.top(px(0.) + y_offset)
                             }
@@ -383,12 +384,12 @@ impl Render for Notification {
                         }
                     } else {
                         let y_offset = match placement {
-                            Corner::TopLeft | Corner::TopRight | Corner::TopCenter => {
-                                px(-45.) + delta * px(45.)
-                            }
-                            Corner::BottomLeft | Corner::BottomRight | Corner::BottomCenter => {
-                                px(45.) - delta * px(45.)
-                            }
+                            AnchorPosition::TopLeft
+                            | AnchorPosition::TopRight
+                            | AnchorPosition::TopCenter => px(-45.) + delta * px(45.),
+                            AnchorPosition::BottomLeft
+                            | AnchorPosition::BottomRight
+                            | AnchorPosition::BottomCenter => px(45.) - delta * px(45.),
                             _ => px(0.),
                         };
                         let opacity = delta;
@@ -404,8 +405,8 @@ impl Render for Notification {
 /// The settings for notifications.
 #[derive(Debug, Clone)]
 pub struct NotificationSettings {
-    /// The placement of the notification, default: [`Corner::TopRight`]
-    pub placement: Corner,
+    /// The placement of the notification, default: [`AnchorPosition::TopRight`]
+    pub placement: AnchorPosition,
     /// The margins of the notification with respect to the window edges.
     pub margins: Edges<Pixels>,
     /// The maximum number of notifications to show at once, default: 10
@@ -416,7 +417,7 @@ impl Default for NotificationSettings {
     fn default() -> Self {
         let offset = px(16.);
         Self {
-            placement: Corner::TopRight,
+            placement: AnchorPosition::TopRight,
             margins: Edges {
                 top: TITLE_BAR_HEIGHT + offset, // avoid overlap with title bar
                 right: offset,
@@ -527,22 +528,22 @@ impl Render for NotificationList {
             .pb(margins.bottom)
             .gap_3()
             .when(
-                matches!(placement, Corner::TopRight),
+                matches!(placement, AnchorPosition::TopRight),
                 |this| this.pr(margins.right), // ignore left
             )
             .when(
-                matches!(placement, Corner::TopLeft),
+                matches!(placement, AnchorPosition::TopLeft),
                 |this| this.pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, Corner::BottomLeft),
+                matches!(placement, AnchorPosition::BottomLeft),
                 |this| this.flex_col_reverse().pl(margins.left), // ignore right
             )
             .when(
-                matches!(placement, Corner::BottomRight),
+                matches!(placement, AnchorPosition::BottomRight),
                 |this| this.flex_col_reverse().pr(margins.right), // ignore left
             )
-            .when(matches!(placement, Corner::BottomCenter), |this| {
+            .when(matches!(placement, AnchorPosition::BottomCenter), |this| {
                 this.flex_col_reverse()
             })
             .on_hover(cx.listener(|view, hovered, _, cx| {
